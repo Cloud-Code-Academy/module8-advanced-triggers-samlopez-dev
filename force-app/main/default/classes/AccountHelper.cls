@@ -51,11 +51,7 @@ public with sharing class AccountHelper {
         }
 
         if (!contacts.isEmpty()) {
-            try {
-                insert contacts;
-            } catch (DmlException e) {
-                System.debug('Error inserting default contacts: ' + e.getMessage());
+                Database.insert(contacts, AccessLevel.SYSTEM_MODE);
             }
-        }
     }
 }
