@@ -43,13 +43,11 @@ public with sharing class AccountHelper {
 
         List<Contact> contacts = new List<Contact>();   
         for(Account acc : accounts) {
-            Contact con = new Contact();
-            con.LastName = 'DefaultContact';
-            con.Email = 'default@email.com';
-            if (acc.Id != null) {
-                con.AccountId = acc.Id;
-            }
-            contacts.add(con);
+            contacts.add(new Contact(
+                LastName = 'DefaultContact',
+                Email = 'default@email.com',
+                AccountId = acc.Id
+            ));
         }
 
         if (!contacts.isEmpty()) {
