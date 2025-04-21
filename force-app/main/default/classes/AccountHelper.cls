@@ -37,11 +37,7 @@ public with sharing class AccountHelper {
     }
 
     public static void defaultContact(List<Account> accounts) {
-        if (accounts == null || accounts.isEmpty()){
-            return;
-        } 
-
-        List<Contact> contacts = new List<Contact>();   
+        List<Contact> contacts = new List<Contact>();  
         for(Account acc : accounts) {
             contacts.add(new Contact(
                 LastName = 'DefaultContact',
@@ -50,8 +46,7 @@ public with sharing class AccountHelper {
             ));
         }
 
-        if (!contacts.isEmpty()) {
-                Database.insert(contacts, AccessLevel.SYSTEM_MODE);
-            }
+        Database.insert(contacts, AccessLevel.USER_MODE);
+            
     }
 }
