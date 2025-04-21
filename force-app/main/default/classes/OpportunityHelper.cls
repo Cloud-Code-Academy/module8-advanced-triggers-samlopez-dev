@@ -30,7 +30,7 @@ public with sharing class OpportunityHelper {
 
         for (Contact con : contacts) {
             if (!accountIdToContact.containsKey(con.AccountId)) {
-                accountIdToContact.put(cont.AccountId, con);
+                accountIdToContact.put(con.AccountId, con);
             }
         }
 
