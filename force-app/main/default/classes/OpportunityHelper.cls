@@ -64,9 +64,8 @@ public with sharing class OpportunityHelper {
                 ));
             }
 
-            if (!tasksToInsert.isEmpty()) {
-                Database.insert(tasksToInsert, AccessLevel.SYSTEM_MODE);
-            }
+            Database.insert(tasksToInsert, AccessLevel.USER_MODE);
+
     }
 
     public static void appendStageChangesToOppDescription(Map<Id, Opportunity> oppNewMap, Map<Id, Opportunity> oppOldMap) {
@@ -84,9 +83,8 @@ public with sharing class OpportunityHelper {
             }
         }
         
-        if (!oppsToUpdate.isEmpty()) {
-            Database.insert(oppsToUpdate, AccessLevel.SYSTEM_MODE);
-        }
+        Database.insert(oppsToUpdate, AccessLevel.USER_MODE);
+
     }
 
     public static void notifyOwnersOppDeleted(List<Opportunity> opps) {
@@ -143,10 +141,7 @@ public with sharing class OpportunityHelper {
             }
         }
 
-        if (!oppsToUpdate.isEmpty()) {
-            Database.update(oppsToUpdate, AccessLevel.SYSTEM_MODE);
-        }
+        Database.update(oppsToUpdate, AccessLevel.USER_MODE);
+
     }
-
-
 }
