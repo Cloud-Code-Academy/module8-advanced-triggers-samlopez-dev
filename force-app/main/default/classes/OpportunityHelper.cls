@@ -56,21 +56,17 @@ public with sharing class OpportunityHelper {
             List<Task> tasksToInsert = new List<Task>();
 
             for (Opportunity opp : opps) {
-                Task tsk = new Task();
-                tsk.Subject = 'Call Primary Contact';
-                tsk.WhatId = opp.Id;
-                tsk.WhoId = opp.Primary_Contact__c;
-                tsk.OwnerId = opp.OwnerId;
-                tsk.ActivityDate = Date.today().addDays(3);
-                tasksToInsert.add(tsk);
+                tasksToInsert.add(new Task(
+                    Subject = 'Call Primary Contact',
+                    WhatId = opp.Id,
+                    WhoId = opp.Primary_Contact__c,
+                    OwnerId = opp.OwnerId,
+                    ActivityDate = Date.today().addDays(3)
+                ));
             }
 
-            if (!tasksToInsert.isEmpty()){
-                try {
-                    insert tasksToInsert;
-                } catch (Exception e) {
-                    System.debug('Insert failed: ' + e.getMessage());
-                }
+            if (!tasksToInsert.isEmpty()) {
+                Database.insert(tasksToInsert, AccessLevel.SYSTEM_MODE);
             }
     }
 
@@ -90,11 +86,7 @@ public with sharing class OpportunityHelper {
         }
         
         if (!oppsToUpdate.isEmpty()) {
-            try {
-                update oppsToUpdate;
-            } catch (DmlException e) {
-                System.debug('Failed to update Opportunities with stage change: ' + e.getMessage());
-            }
+            Database.insert(oppsToUpdate, AccessLevel.SYSTEM_MODE);
         }
     }
 
@@ -120,11 +112,7 @@ public with sharing class OpportunityHelper {
         }
     
         if (!mails.isEmpty()) {
-            try {
-                Messaging.sendEmail(mails);
-            } catch (Exception e) {
-                System.debug('Exception: ' + e.getMessage());
-            }
+            Messaging.sendEmail(mails);
         }
     }
 
@@ -138,7 +126,7 @@ public with sharing class OpportunityHelper {
         }
     
         Map<Id, Contact> vpContactsByAccount = new Map<Id, Contact>();
-        for (Contact c : [SELECT Id, AccountId FROM Contact WHERE Title = 'VP Sales' AND AccountId IN :accountIds]) {
+        for (Contact c : [SELECT Id, AccountId FROM Contact WHERE Title = 'VP Sales' AND AccountId IN :accountIds WITH SECURITY_ENFORCED]) {
             if (!vpContactsByAccount.containsKey(c.AccountId)) {
                 vpContactsByAccount.put(c.AccountId, c);
             }
@@ -157,11 +145,7 @@ public with sharing class OpportunityHelper {
         }
 
         if (!oppsToUpdate.isEmpty()) {
-            try {
-                update oppsToUpdate;
-            } catch (Exception e) {
-                System.debug('Update Failed: ' + e.getMessage());
-            }
+            Database.update(oppsToUpdate, AccessLevel.SYSTEM_MODE);
         }
     }
 
