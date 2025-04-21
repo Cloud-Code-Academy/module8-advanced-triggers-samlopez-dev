@@ -25,12 +25,12 @@ public with sharing class OpportunityHelper {
             accountIds.add(opp.AccountId);
         }
         
-        Map<Id, Contact> contacts = new Map<Id, Contact>([SELECT Id, FirstName, AccountId FROM Contact WHERE AccountId IN :accountIds AND Title = 'CEO' ORDER BY FirstName ASC]);
+        List<Contact> contacts = new List<Contact>([SELECT Id, FirstName, AccountId FROM Contact WHERE AccountId IN :accountIds AND Title = 'CEO' ORDER BY FirstName ASC]);
         Map<Id, Contact> accountIdToContact = new Map<Id, Contact>();
 
-        for (Contact cont : contacts.values()) {
-            if (!accountIdToContact.containsKey(cont.AccountId)) {
-                accountIdToContact.put(cont.AccountId, cont);
+        for (Contact con : contacts) {
+            if (!accountIdToContact.containsKey(con.AccountId)) {
+                accountIdToContact.put(cont.AccountId, con);
             }
         }
 
