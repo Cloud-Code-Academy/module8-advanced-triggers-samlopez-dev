@@ -10,7 +10,6 @@ public with sharing class OpportunityHelper {
 
     
     public static void preventOppDeletion(List<Opportunity> opps) {
-        Map<Id, Account> accounts = new Map<Id, Account>([SELECT Id, Industry FROM Account WHERE Id IN (SELECT AccountId FROM Opportunity WHERE Id IN :opps)]);
         for(Opportunity opp : opps){
             if(opp.IsClosed) {
                 opp.addError('Cannot delete closed opportunity');
